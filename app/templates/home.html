@@ -1,106 +1,112 @@
-{% extends "core/layout.html" %} {% block title %}Accueil{% endblock %} {% block head %} {{ super() }}
+{% extends "core/layout.html" %}
+{% block title %}Accueil{% endblock %}
+{% block head %} {{ super() }}{% endblock %}
+{% block content %}
+<style type="text/css">
+    .paralsec1 {
+        min-height: 515px;
+    }
 
-{% endblock %} {% block content %}
-    <style type="text/css">
-        .paralsec1 {
-            min-height: 515px;
-        }
+    .icon-rounded {
+        width: 6rem;
+        height: 6rem;
+        line-height: 6rem;
+    }
+</style>
 
-        .icon-rounded {
-            width: 6rem;
-            height: 6rem;
-            line-height: 6rem;
-        }
-    </style>
-
-    <!-- First Parallax Section -->
-    <div class="jumbotron paral paralsec">
-        <div class="container">
-            <h1 class="display-1">{{ site_name }}</h1>
-            <p class="">{{ site_desc|safe }}</p>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-triangle text-warning"></i>
-                <span>Cette plateforme est une première version en cours de développement. Elle sera amenée à évoluer.</span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<!-- First Parallax Section -->
+<div class="jumbotron paral paralsec">
+    <div class="container">
+        <h1 class="display-1">{{ site_name }}</h1>
+        <p class="">{{ site_desc|safe }}</p>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle text-warning"></i>
+            <span>Cette plateforme est une première version en cours de développement. Elle sera amenée à
+                évoluer.</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <p class="">
+            {% include "core/search_territory.html" %}
+        </p>
+    </div>
+</div>
+<div class="jumbotron paral paralsec1">
+    <div class="container">
+        <h1 class="display-1">Données de la plateforme</h1>
+        <div id="homeStats" class="row text-center" style="padding-top: 20px;">
+            <div class="col">
+                <div class="icon-rounded shadow bg-primary-light mb-3">
+                    <i class="fas fa-eye fa-3x"></i>
+                </div>
+                <div class="count" id="countOcctax">0</div>
+                <div class="subject">Observations</div>
             </div>
-            <p class="">
-                {% include "core/search_territory.html" %}
-            </p>
+            <div class="col">
+                <div class="icon-rounded shadow bg-primary-light mb-3">
+                    <i class="fas fa-frog fa-3x"></i>
+                </div>
+                <div class="count" id="countTaxa">0</div>
+                <div class="subject">Taxons</div>
+            </div>
+            <div class="col">
+                <div class="icon-rounded shadow bg-primary-light mb-3">
+                    <i class="fas fa-user-friends fa-3x"></i>
+                </div>
+                <div class="count" id="countObservers">0</div>
+                <div class="subject">Observateurs</div>
+            </div>
+            {#                <div class="col">#}
+            {#                    <div class="count" id="countDatasets">0</div>#}
+            {#                    <div class="subject">Jeux de données</div>#}
+            {#                </div>#}
         </div>
     </div>
-    <div class="jumbotron paral paralsec1">
-        <div class="container">
-            <h1 class="display-1">Données de la plateforme</h1>
-            <div id="homeStats" class="row text-center" style="padding-top: 20px;">
-                <div class="col">
-                    <div class="icon-rounded shadow bg-primary-light mb-3">
-                        <i class="fas fa-eye fa-3x"></i>
-                    </div>
-                    <div class="count" id="countOcctax">0</div>
-                    <div class="subject">Observations</div>
-                </div>
-                <div class="col">
-                    <div class="icon-rounded shadow bg-primary-light mb-3">
-                        <i class="fas fa-frog fa-3x"></i>
-                    </div>
-                    <div class="count" id="countTaxa">0</div>
-                    <div class="subject">Taxons</div>
-                </div>
-                <div class="col">
-                    <div class="icon-rounded shadow bg-primary-light mb-3">
-                        <i class="fas fa-user-friends fa-3x"></i>
-                    </div>
-                    <div class="count" id="countObservers">0</div>
-                    <div class="subject">Observateurs</div>
-                </div>
-                {#                <div class="col">#}
-                {#                    <div class="count" id="countDatasets">0</div>#}
-                {#                    <div class="subject">Jeux de données</div>#}
-                {#                </div>#}
-            </div>
+</div>
+{% if bonus_block %}
+<div class="jumbotron paral-adaptative paralsec2">
+    <div class="container">
+        <h1 class="display-1">{{ bonus_block.title }}</h1>
+        <div id="bonusContent" class="content">
+            {{ bonus_block.content|safe }}
         </div>
     </div>
-    {% if bonus_block %}
-        <div class="jumbotron paral-adaptative paralsec2">
-            <div class="container">
-                <h1 class="display-1">{{ bonus_block.title }}</h1>
-                <div id="bonusContent" class="content">
-                    {{ bonus_block.content|safe }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    <script type="module">
-        import {CountUp} from './static/assets/countup.min.js';
-
-        const countUpOptions = {
-            separator: ' ',
-        };
-
-        var countUpUpdate = function (element, data) {
-            new CountUp(element, data, countUpOptions).start();
-        };
-
-        var getStats = function () {
-            axios.get('/api/homestats')
-                .then(function (response) {
-                    debugLog(response);
-                    countUpUpdate('countOcctax', response.data['count_occtax']);
-                    {#countUpUpdate('countDatasets', response.data['count_dataset']);#}
-                    countUpUpdate('countObservers', response.data['count_observer']);
-                    countUpUpdate('countTaxa', response.data['count_taxa']);
-                })
-                .catch(function (error) {
-                    debugLog('<get GenStats error>', error);
-                })
-        };
-        getStats();
+</div>
+{% endif %}
 
 
-        $("#bonusContent > p, h1, h2, h3, h4").addClass('lead');
+{% endblock %}
 
-    </script>
+{% block customscript %}
+<script type="module">
+    // import { CountUp } from './static/assets/countup.min.js';
 
+    const countUpOptions = {
+        separator: ' ',
+    };
+
+    var countUpUpdate = function (element, data) {
+        new CountUp(element, data, countUpOptions).start();
+    };
+
+    var getStats = function () {
+        axios.get('/api/homestats')
+            .then(function (response) {
+                debugLog(response);
+                countUpUpdate('countOcctax', response.data['count_occtax']);
+                // countUpUpdate('countDatasets', response.data['count_dataset']);
+                countUpUpdate('countObservers', response.data['count_observer']);
+                countUpUpdate('countTaxa', response.data['count_taxa']);
+            })
+            .catch(function (error) {
+                debugLog('<get GenStats error>', error);
+            })
+    };
+    getStats();
+
+
+    $("#bonusContent > p, h1, h2, h3, h4").addClass('lead');
+
+</script>
 {% endblock %}

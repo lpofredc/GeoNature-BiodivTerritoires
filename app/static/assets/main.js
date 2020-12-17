@@ -1,3 +1,19 @@
+import $ from 'jquery';
+import 'leaflet';
+import 'bootstrap';
+import 'fontawesome';
+import 'select2';
+import axios from 'axios';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import Chart from 'chartjs';
+import CountUp from 'countup.js';
+
+
+window.jQuery = $;
+window.$ = $;
+
+
 if (debugMode) var debugLog = console.log.bind(window.console)
 else var debugLog = function () {
 }
@@ -141,19 +157,19 @@ const add = (a, b) => a + b
 
 
 const dataTableFr = {
-                sEmptyTable: "Aucune donnée disponible dans le tableau",
-                sInfo: "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
-                sInfoEmpty: "Affichage de l'élément 0 à 0 sur 0 élément",
-                sInfoFiltered: "(filtré à partir de _MAX_ éléments au total)",
-                sInfoPostFix: "",
-                sInfoThousands: ",",
-                sLengthMenu: "Afficher _MENU_ éléments",
-                sLoadingRecords: "Chargement...",
-                sProcessing: "Traitement...",
-                sSearch: "Rechercher :",
-                sZeroRecords: "Aucun élément correspondant trouvé",
-                oAria: {
-                    sSortAscending: ": activer pour trier la colonne par ordre croissant",
-                    sSortDescending: ": activer pour trier la colonne par ordre décroissant"
-                },
-            }
+    sEmptyTable: "Aucune donnée disponible dans le tableau",
+    sInfo: "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+    sInfoEmpty: "Affichage de l'élément 0 à 0 sur 0 élément",
+    sInfoFiltered: "(filtré à partir de _MAX_ éléments au total)",
+    sInfoPostFix: "",
+    sInfoThousands: ",",
+    sLengthMenu: "Afficher _MENU_ éléments",
+    sLoadingRecords: "Chargement...",
+    sProcessing: "Traitement...",
+    sSearch: "Rechercher :",
+    sZeroRecords: "Aucun élément correspondant trouvé",
+    oAria: {
+        sSortAscending: ": activer pour trier la colonne par ordre croissant",
+        sSortDescending: ": activer pour trier la colonne par ordre décroissant"
+    },
+}
